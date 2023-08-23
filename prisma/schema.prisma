@@ -5,6 +5,7 @@ generator client {
     provider = "prisma-client-js"
 }
 
+// Connects to the specified database through a connection string in .env file
 datasource db {
     provider = "postgresql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
@@ -12,12 +13,6 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-}
-
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -39,14 +34,6 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -55,7 +42,17 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    carts Cart[]
 }
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 
 model VerificationToken {
     identifier String
@@ -63,4 +60,40 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Models for e-commerce logic
+model Item {
+    id String @id @default(cuid())
+    name String
+    description String
+    price Int
+    discount Int
+    category String
+    tags String[] @default([])
+    quantity Int @default(0)
+    availability Boolean @default(false)
+    images String[]
+    cartItems CartItem[]
+}
+
+model Cart {
+    id String @id @default(cuid())
+    user User @relation(fields: [userId], references: [id])
+    userId String
+    items CartItem[]
+    totalItemsCount Int
+    totalPrice Float
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    isCheckedOut Boolean @default(false)
+}
+
+model CartItem {
+    id String @id @default(cuid())
+    cart Cart @relation(fields: [cartId], references: [id])
+    cartId String
+    item Item @relation(fields: [itemId], references: [id])
+    itemId String
+    quantity Int @default(1)
 }
