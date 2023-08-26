@@ -168,8 +168,6 @@ const cartRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { cartId, cartItemId, itemId } = input;
 
-      let deletedCartItem;
-
       // Figures out how many cart items are in the cart currently
       const cartItemsCount = await ctx.prisma.cartItem.count({
         where: { cartId },
@@ -200,7 +198,7 @@ const cartRouter = createTRPCRouter({
       }
 
       // Deletes a cart item from the cart
-      deletedCartItem = await ctx.prisma.cartItem.delete({
+      const deletedCartItem = await ctx.prisma.cartItem.delete({
         where: { id: cartItem.id, cartId },
         include: { item: true },
       });

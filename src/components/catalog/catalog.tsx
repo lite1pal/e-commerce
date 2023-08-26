@@ -1,4 +1,4 @@
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import CartMenu from "../cart/cartMenu";
@@ -89,11 +89,12 @@ export default function Catalog(props: { sessionData: Session }) {
           mobileMenu && ""
         } m-5 flex flex-row flex-wrap justify-center gap-5 transition duration-300`}
       >
-        {itemsLoading && <LoadingSpinner />}
-        {items &&
-          items.map((item) => {
-            return <Item key={item.id} {...{ item, cart, openCartMenu }} />;
-          })}
+        {itemsLoading ? <LoadingSpinner /> : null}
+        {items
+          ? items.map((item) => {
+              return <Item key={item.id} {...{ item, cart, openCartMenu }} />;
+            })
+          : null}
       </div>
     </main>
   );

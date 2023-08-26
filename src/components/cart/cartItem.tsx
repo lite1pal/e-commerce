@@ -1,4 +1,4 @@
-import { ICart, ICartItem } from "~/interfaces/interfaces";
+import { type ICart, type ICartItem } from "~/interfaces/interfaces";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ export default function CartItem({
         setDeleteCartItemLoading(false);
       });
     },
-    onError: (err: any) => {
+    onError: (err) => {
       toast.error(err.message);
       setDeleteCartItemLoading(false);
     },
@@ -44,7 +44,7 @@ export default function CartItem({
         setIncreaseQuantityLoading(false);
       });
     },
-    onError: (err: any) => {
+    onError: (err) => {
       toast.error(err.message);
       setIncreaseQuantityLoading(false);
     },
@@ -60,7 +60,7 @@ export default function CartItem({
       void ctx.cart.getCartByUserId.invalidate();
       setDecreaseQuantityLoading(false);
     },
-    onError: (err: any) => {
+    onError: (err) => {
       toast.error(err.message);
       setDecreaseQuantityLoading(false);
     },

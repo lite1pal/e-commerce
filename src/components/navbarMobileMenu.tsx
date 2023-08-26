@@ -27,9 +27,9 @@ export default function NavbarMobileMenu(props: {
         <div>Books</div>
         <div>Movies</div>
         {sessionData && sessionData.user ? (
-          <div onClick={() => signOut()}>Sign out</div>
+          <div onClick={() => void signOut()}>Sign out</div>
         ) : (
-          <div onClick={() => signIn()}>Sign in</div>
+          <div onClick={() => void signIn()}>Sign in</div>
         )}
       </div>
     </div>

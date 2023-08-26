@@ -1,4 +1,4 @@
-import { ICart } from "~/interfaces/interfaces";
+import { type ICart } from "~/interfaces/interfaces";
 import Icon from "../helpful/icon";
 import CartItem from "./cartItem";
 
@@ -42,7 +42,7 @@ export default function CartMenu(props: {
             <div className="flex justify-between">
               <div>Taxes</div>
               <div className="text-base text-white">
-                ${cart && cart.totalPrice && cart.totalPrice * 0.03}0 USD
+                ${cart?.totalPrice ? cart.totalPrice * 0.03 + " USD" : ""}
               </div>
             </div>
             <hr />

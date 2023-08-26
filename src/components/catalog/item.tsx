@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { IItem, ICart } from "~/interfaces/interfaces";
+import { type IItem, type ICart } from "~/interfaces/interfaces";
 import { api } from "~/utils/api";
 import Icon from "../helpful/icon";
 import Image from "next/image";
@@ -12,7 +12,7 @@ export default function Item(props: {
   cart: ICart | null | undefined;
   openCartMenu: () => void;
 }) {
-  const { item, cart, openCartMenu } = props;
+  const { item, cart } = props;
   const { data: sessionData } = useSession();
 
   const ctx = api.useContext();
@@ -29,7 +29,7 @@ export default function Item(props: {
         setAddItemToCartLoading(false);
       });
     },
-    onError: (err: any) => {
+    onError: (err) => {
       toast.error(err.message);
       setAddItemToCartLoading(false);
     },
@@ -46,7 +46,7 @@ export default function Item(props: {
         setDeleteCartItemLoading(false);
       });
     },
-    onError: (err: any) => {
+    onError: (err) => {
       toast.error(err.message);
       setDeleteCartItemLoading(false);
     },
@@ -59,6 +59,10 @@ export default function Item(props: {
       return cartItem.item.id === item.id;
     });
   };
+
+  if (!sessionData) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="flex aspect-square w-full max-w-xs flex-col justify-between rounded-lg border border-gray-100 border-opacity-10 bg-slate-950 hover:border-blue-700">
@@ -95,7 +99,7 @@ export default function Item(props: {
               isItemInCart() && cart
                 ? deleteCartItem({ cartId: cart.id, itemId: item.id })
                 : addItemToCart({
-                    userId: sessionData?.user.id!,
+                    userId: sessionData.user.id,
                     itemId: item.id,
                     price: item.price,
                   })
