@@ -14,7 +14,7 @@ export default function CartMenu(props: {
     <div
       className={`${!cartMenu && "hidden"} ${
         fadeIn && "translate-x-full"
-      } absolute z-10 flex min-h-screen w-screen flex-col bg-slate-950 p-6 transition duration-700`}
+      } absolute z-10 flex h-screen w-screen flex-col bg-slate-950 p-6 transition duration-700`}
     >
       <div className="flex items-center justify-between">
         <div className="text-lg font-medium">My Cart</div>

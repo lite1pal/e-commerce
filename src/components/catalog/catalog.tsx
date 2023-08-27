@@ -54,7 +54,7 @@ export default function Catalog(props: { sessionData: Session }) {
     <main
       className={`${
         (mobileMenu || cartMenu) && "h-screen overflow-hidden"
-      } flex min-h-screen flex-col gap-10 bg-slate-900 text-white selection:bg-pink-600`}
+      } z-0 flex min-h-screen flex-col gap-10 bg-slate-900 text-white selection:bg-pink-600`}
     >
       {/*   NAVBAR MOBILE MENU   */}
       <NavbarMobileMenu {...{ fadeIn, closeMobileMenu, mobileMenu }} />
@@ -77,7 +77,7 @@ export default function Catalog(props: { sessionData: Session }) {
         </div>
         <div
           onClick={openCartMenu}
-          className="relative z-0 flex cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-3"
+          className="relative flex cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-3"
         >
           <Icon img="/shopping-cart.svg" w={15} h={15} />
           {cart && cart.cartItems.length > 0 ? (

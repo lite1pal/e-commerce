@@ -22,7 +22,7 @@ export default function NavbarMobileMenu(props: {
         <Icon img="/x.svg" w={20} h={20} />
       </div>
       <SearchInput />
-      <div className="flex cursor-pointer flex-col gap-3 text-xl font-light">
+      <div className="flex flex-col gap-3 text-xl font-light">
         <div>All</div>
         <div>Books</div>
         <div>Movies</div>
