@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Catalog from "~/components/catalog/catalog";
-import { redirect, useRouter } from "next/navigation";
-import LoadingSpinner from "~/components/helpful/loading";
+import { useRouter } from "next/navigation";
+
 import SignIn from "~/components/signIn";
 import { useEffect } from "react";
 
