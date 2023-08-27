@@ -14,7 +14,7 @@ export default function CartMenu(props: {
     <div
       className={`${!cartMenu && "hidden"} ${
         fadeIn && "translate-x-full"
-      } absolute flex min-h-screen w-screen flex-col bg-slate-950 p-6 transition duration-700`}
+      } absolute z-10 flex min-h-screen w-screen flex-col bg-slate-950 p-6 transition duration-700`}
     >
       <div className="flex items-center justify-between">
         <div className="text-lg font-medium">My Cart</div>
@@ -42,7 +42,10 @@ export default function CartMenu(props: {
             <div className="flex justify-between">
               <div>Taxes</div>
               <div className="text-base text-white">
-                ${cart?.totalPrice ? cart.totalPrice * 0.03 + " USD" : ""}
+                $
+                {cart?.totalPrice
+                  ? Math.floor(cart.totalPrice * 0.03) + " USD"
+                  : ""}
               </div>
             </div>
             <hr />

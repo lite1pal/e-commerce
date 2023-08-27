@@ -65,7 +65,7 @@ export default function Item(props: {
   }
 
   return (
-    <div className="flex aspect-square w-full max-w-xs flex-col justify-between rounded-lg border border-gray-100 border-opacity-10 bg-slate-950 hover:border-blue-700">
+    <div className="relative z-0 flex aspect-square w-full max-w-xs flex-col justify-between rounded-lg border border-gray-100 border-opacity-10 bg-slate-950 hover:border-blue-700">
       <div className="w-full max-w-full">
         <Image
           src={
@@ -81,10 +81,10 @@ export default function Item(props: {
         />
       </div>
 
-      <div className="flex items-center justify-between gap-3 p-3">
-        <div className="flex w-full flex-col rounded-full border-gray-100 border-opacity-10 bg-slate-950">
-          <div className="px-4 py-2 md:text-lg">{item.name}</div>
-          <div className="ml-3 w-fit rounded-full bg-blue-600 p-2 text-xs font-bold md:text-sm">
+      <div className="absolute bottom-0 flex w-full items-center justify-between gap-3 bg-slate-950 p-3">
+        <div className="flex w-full flex-col rounded border-gray-100 border-opacity-10 ">
+          <div className="px-4 py-2 text-sm">{item.name}</div>
+          <div className="ml-3 w-fit rounded bg-slate-600 p-1 text-xs font-bold">
             ${item.price}.00 USD
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function Item(props: {
             }
             className={`${
               isItemInCart() && "bg-green-700"
-            } flex cursor-pointer gap-1 rounded border border-gray-100 border-opacity-30 p-2 `}
+            } flex cursor-pointer gap-1 rounded border border-gray-100 border-opacity-20  p-2 `}
           >
             <Icon img="/shopping-cart.svg" w={15} h={15} />
             <div>+</div>

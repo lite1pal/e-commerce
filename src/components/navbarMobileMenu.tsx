@@ -13,7 +13,7 @@ export default function NavbarMobileMenu(props: {
     <div
       className={`${!mobileMenu && "hidden"} ${
         fadeIn && "-translate-x-full"
-      } absolute flex h-screen w-screen flex-col gap-5 bg-slate-950 p-4 transition duration-700`}
+      } absolute z-10 flex h-screen w-screen flex-col gap-5 bg-slate-950 p-4 transition duration-700`}
     >
       <div
         onClick={closeMobileMenu}

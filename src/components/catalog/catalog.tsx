@@ -77,9 +77,16 @@ export default function Catalog(props: { sessionData: Session }) {
         </div>
         <div
           onClick={openCartMenu}
-          className="cursor-pointer rounded border border-gray-100 border-opacity-30 p-3"
+          className="relative z-0 flex cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-3"
         >
           <Icon img="/shopping-cart.svg" w={15} h={15} />
+          {cart && cart.cartItems.length > 0 ? (
+            <div
+              className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-700 text-white" // Adjust styling as needed
+            >
+              {cart.cartItems.length}
+            </div>
+          ) : null}
         </div>
       </nav>
 
