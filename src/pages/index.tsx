@@ -1,13 +1,15 @@
 import { useSession } from "next-auth/react";
 import Catalog from "~/components/catalog/catalog";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import LoadingSpinner from "~/components/helpful/loading";
 
 export default function Home() {
+  const router = useRouter();
   const { data: sessionData, status } = useSession({
     required: true,
     onUnauthenticated: () => {
-      redirect("/components/signIn");
+      // redirect("/components/signIn");
+      router.push("/components/signIn");
     },
   });
 
