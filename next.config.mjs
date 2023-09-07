@@ -8,7 +8,15 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["m.media-amazon.com", "moviesmedia.ign.com"],
+    domains: [
+      "m.media-amazon.com",
+      "moviesmedia.ign.com",
+      "www.crushpixel.com",
+      "api.time.com",
+      "static.vecteezy.com",
+      "media.npr.org",
+      "cdn.discordapp.com",
+    ],
   },
 
   /**

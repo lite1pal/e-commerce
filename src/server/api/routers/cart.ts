@@ -14,7 +14,11 @@ const cartRouter = createTRPCRouter({
         where: { userId },
         include: {
           cartItems: {
-            include: { item: true },
+            include: {
+              item: {
+                include: { reviews: { include: { user: true, item: true } } },
+              },
+            },
             orderBy: { createdAt: "desc" },
           },
         },

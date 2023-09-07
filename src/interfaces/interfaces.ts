@@ -1,7 +1,16 @@
+export interface IUser {
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  emailVerified: Date | null;
+}
+
 export interface IItem {
   id: string;
   name: string;
   description: string | null;
+  author: string | null;
   price: number;
   discount: number | null;
   category: string | null;
@@ -9,6 +18,7 @@ export interface IItem {
   quantity: number;
   availability: boolean;
   images: string[];
+  reviews: IReview[];
 }
 
 export interface ICartItem {
@@ -31,4 +41,25 @@ export interface ICart {
   updatedAt: Date;
   cartItems: ICartItem[];
   isCheckedOut: boolean;
+}
+
+export interface IPurchasedItem {
+  id: string;
+  userId: string;
+  item: IItem;
+  itemId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IReview {
+  id: string;
+  user: IUser;
+  userId: string;
+  // item: IItem;
+  itemId: string;
+  content: string;
+  rating: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
