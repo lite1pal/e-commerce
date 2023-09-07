@@ -66,7 +66,7 @@ export default function Item(props: {
 
   return (
     <div
-      className={`group relative z-0 flex aspect-square flex-col justify-between  border border-opacity-0 bg-slate-950 hover:border-blue-700 hover:border-opacity-100 ${
+      className={`group relative z-0 flex aspect-square flex-col justify-between border border-gray-100 border-opacity-0 bg-slate-950 hover:border-blue-700 hover:border-opacity-100 ${
         popularNow && "max-sm:w-56"
       } max-sm:max-w-md sm:w-72 lg:w-52`}
     >
