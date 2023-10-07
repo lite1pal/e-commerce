@@ -31,10 +31,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
 };
 
 function Auth({ children }: React.PropsWithChildren<object>) {
-  const { status } = useSession({ required: true });
+  const { status, data: sessionData } = useSession();
 
   if (status === "loading") {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
+    return <div className="h-screen w-screen bg-slate-500"></div>;
   }
 
   return children;

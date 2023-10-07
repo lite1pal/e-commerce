@@ -16,6 +16,8 @@ const config = {
       "static.vecteezy.com",
       "media.npr.org",
       "cdn.discordapp.com",
+      "static.yakaboo.ua",
+      "i.pinimg.com",
     ],
   },
 

@@ -48,7 +48,7 @@ export function AboutAuthor({ item }: { item: IItem }) {
 
 export function Review({ review }: { review: IReview }) {
   return (
-    <div className="flex gap-7">
+    <div className="flex gap-10 xl:gap-7">
       <div className="flex flex-col items-center gap-5">
         <div className="flex items-center gap-4">
           <Image
@@ -56,10 +56,10 @@ export function Review({ review }: { review: IReview }) {
             width={1920}
             height={1080}
             alt="user-image"
-            className="h-10 w-10 rounded-full"
+            className="h-8 w-8 rounded-full xl:h-10 xl:w-10"
           />
 
-          <div className="text-lg font-light text-slate-100">
+          <div className="font-light text-slate-100 xl:text-lg">
             {review.user.name}
           </div>
         </div>
@@ -70,11 +70,11 @@ export function Review({ review }: { review: IReview }) {
           <i className="fa-solid fa-star fa-xs" style={{ color: "orange" }}></i>
           <i className="fa-solid fa-star fa-xs" style={{ color: "orange" }}></i>
         </div>
-        <div className="font-light text-slate-300">
+        <div className="font-light text-slate-300 max-xl:text-sm">
           {new Date(review.createdAt).toLocaleDateString()}
         </div>
       </div>
-      <div className="font-extralight text-slate-300 lg:w-2/3">
+      <div className="font-extralight text-slate-300 max-xl:text-sm lg:w-2/3">
         {review.content}...
         {/* <span className="cursor-pointer text-blue-400 hover:underline">
           {" "}
@@ -98,9 +98,6 @@ export function WriteReview({
 
   const [contentInput, setContentInput] = useState("");
 
-  if (status === "loading" || !sessionData) {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
-  }
   // const [rating, setRating] = useState(0);
   // const ratingRef = useRef(null);
 
@@ -131,14 +128,16 @@ export function WriteReview({
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3">
           <Image
-            src={sessionData.user.image ? sessionData.user.image : ""}
+            src={sessionData?.user.image ? sessionData.user.image : ""}
             width={1920}
             height={1080}
             alt="user-image"
             className="h-10 w-10 rounded-full"
           />
           <div className="flex flex-col">
-            <div className="text-sm font-semibold">{sessionData.user.name}</div>
+            <div className="text-sm font-semibold">
+              {sessionData?.user.name}
+            </div>
             <div className="text-sm font-extralight text-slate-300">
               Posting publicly.{" "}
               <span className="cursor-pointer text-blue-600 hover:underline">
@@ -173,7 +172,7 @@ export function WriteReview({
         <button
           onClick={() =>
             postReview({
-              userId: sessionData.user.id,
+              userId: sessionData?.user.id!,
               itemId: item.id,
               content: contentInput,
             })
@@ -198,7 +197,7 @@ export function Reviews({ item }: { item: IItem }) {
       <hr className="opacity-30" />
       <div className="flex flex-col gap-7 py-5">
         <div className="flex w-full justify-between">
-          <div className="text-2xl">Review</div>
+          <div className="text-2xl">Reviews</div>
           <button
             onClick={() => setWriteReviewVision(true)}
             className="rounded border px-2 py-2 font-light hover:bg-gray-800"
@@ -222,8 +221,6 @@ export function Reviews({ item }: { item: IItem }) {
 export default function Page() {
   const router = useRouter();
 
-  // const [reducedOpacity, setReducedOpacity] = useState(false);
-
   const { data: item, isLoading: itemLoading } = api.item.getByItemId.useQuery({
     itemId: router.query.id as string,
   });
@@ -234,108 +231,98 @@ export default function Page() {
 
   return (
     <Layout>
-      <div className="mx-auto flex flex-col gap-10 p-5 max-xl:items-center xl:max-h-screen xl:flex-row">
-        <div className="order-1 flex flex-col gap-5">
-          <div className="order-1 flex flex-col gap-1 xl:hidden">
-            <div className="text-2xl">{item.name}</div>
-            <div className="text-lg text-slate-400">{item.author}</div>
-          </div>
-          <Image
-            src={
-              item.images.length > 0 && item.images[0]
-                ? item.images[0]
-                : "/tshirt.png"
-            }
-            alt={`image-tshirt.png`}
-            width={1920}
-            height={1080}
-            quality={100}
-            className="order-3 rounded-lg max-sm:w-80 sm:max-w-sm xl:order-2"
-          />
-          <div className="order-2 flex justify-center gap-5 xl:order-3">
-            <div className="w-fit cursor-pointer rounded-full bg-slate-700 px-4 py-3 hover:bg-slate-600">
-              <i className="fa-regular fa-heart"></i>
+      <div className="flex min-h-screen flex-col gap-7">
+        <div className="mx-auto flex w-full flex-col gap-10 p-5 max-xl:items-center xl:flex-row">
+          <div className="order-1 flex flex-col gap-5">
+            <div className="order-1 flex flex-col gap-1 xl:hidden">
+              <div className="text-2xl">{item.name}</div>
+              <div className="text-lg text-slate-400">{item.author}</div>
             </div>
-            <div className="w-fit cursor-pointer rounded-full bg-slate-700 px-4 py-3 hover:bg-slate-600">
-              Read a sample
+            <Image
+              src={
+                item.images.length > 0 && item.images[0]
+                  ? item.images[0]
+                  : "/tshirt.png"
+              }
+              alt={`image-tshirt.png`}
+              width={1920}
+              height={1080}
+              quality={100}
+              className="order-3 rounded-lg max-sm:w-80 sm:max-w-sm xl:order-2"
+            />
+            <div className="order-2 flex justify-center gap-5 xl:order-3">
+              <div className="w-fit cursor-pointer rounded-full bg-slate-700 px-4 py-3 hover:bg-slate-600">
+                <i className="fa-regular fa-heart"></i>
+              </div>
+              <div className="w-fit cursor-pointer rounded-full bg-slate-700 px-4 py-3 hover:bg-slate-600">
+                Read a sample
+              </div>
+            </div>
+          </div>
+
+          <div className="order-3 flex flex-col gap-6 overflow-y-auto sm:p-5 xl:order-2 xl:w-full">
+            <div className="flex flex-col gap-1 max-xl:hidden">
+              <div className="text-2xl">{item.name}</div>
+              <div className="text-lg text-slate-400">{item.author}</div>
+            </div>
+
+            <div className="flex gap-10 overflow-y-auto">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-1">
+                  <div>Format</div>
+                  <div className="text-slate-400">Paperback</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div>Language</div>
+                  <div className="text-slate-400">English</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div>Publisher</div>
+                  <div className="text-slate-400">Fondo & Cracks</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-1">
+                  <div>Publication date</div>
+                  <div className="text-slate-400">Fondo & Cracks</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div>Pages</div>
+                  <div className="text-slate-400">480</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div>Dimensions</div>
+                  <div className="text-slate-400">4.23 x 4.1 x 7.04 inches</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1 xl:w-3/4">
+              <div>Description</div>
+              <div className="break-words text-slate-400">
+                {item.description}
+              </div>
+            </div>
+          </div>
+
+          <div className="order-2 flex w-80 flex-col gap-10 sm:p-5 xl:order-3 xl:w-1/2">
+            <div className="flex flex-col gap-1">
+              <div className="text-2xl font-light">{item.price}.00 USD</div>
+              <div className="text-base text-green-500">Available</div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button className=" bg-blue-500 p-3 hover:bg-blue-700">
+                Buy now
+              </button>
+              <button className=" bg-orange-700 p-3 hover:bg-orange-800">
+                Add to cart
+              </button>
             </div>
           </div>
         </div>
-
-        <div className="order-3 flex flex-col gap-6 overflow-y-auto sm:p-5 xl:order-2">
-          <div className="flex flex-col gap-1 max-xl:hidden">
-            <div className="text-2xl">{item.name}</div>
-            <div className="text-lg text-slate-400">{item.author}</div>
-          </div>
-
-          <div className="flex gap-10 overflow-y-auto">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
-                <div>Format</div>
-                <div className="text-slate-400">Paperback</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div>Language</div>
-                <div className="text-slate-400">English</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div>Publisher</div>
-                <div className="text-slate-400">Fondo & Cracks</div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
-                <div>Publication date</div>
-                <div className="text-slate-400">Fondo & Cracks</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div>Pages</div>
-                <div className="text-slate-400">480</div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div>Dimensions</div>
-                <div className="text-slate-400">4.23 x 4.1 x 7.04 inches</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1 xl:w-3/4">
-            <div>Description</div>
-            <div className="text-slate-400">
-              When Thorin Oakenshield and his band of dwarves embark upon a
-              dangerous quest to reclaim the hoard of gold stolen from them by
-              the evil dragon Smaug, Gandalf the wizard suggests an unlikely
-              accomplice: Bilbo Baggins, an unassuming Hobbit dwelling in
-              peaceful Hobbiton. Along the way, the company faces trolls,
-              goblins, giant spiders, and worse. But as they journey from the
-              wonders of Rivendell to the terrors of Mirkwood and beyond, Bilbo
-              will find that there is more to him than anyone—himself
-              included—ever dreamed. Unexpected qualities of courage and
-              cunning, and a love of adventure, propel Bilbo toward his great
-              destiny . . . a destiny that waits in the dark caverns beneath the
-              Misty Mountains, where a twisted creature known as Gollum
-              jealously guards a precious magic ring.{" "}
-            </div>
-          </div>
-        </div>
-
-        <div className="order-2 flex w-full flex-col gap-10 sm:p-5 xl:order-3">
-          <div className="flex flex-col gap-1">
-            <div className="text-2xl font-light">{item.price}.00 USD</div>
-            <div className="text-base text-green-500">Available</div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <button className="bg-blue-500 p-3 hover:bg-blue-700">
-              Buy now
-            </button>
-            <button className="bg-orange-700 p-3 hover:bg-orange-800">
-              Add to cart
-            </button>
-          </div>
-        </div>
+        <Reviews item={item} />
+        <AboutAuthor item={item} />
       </div>
-      <Reviews item={item} />
-      <AboutAuthor item={item} />
     </Layout>
   );
 }

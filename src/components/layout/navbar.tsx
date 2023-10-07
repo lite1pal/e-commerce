@@ -2,7 +2,8 @@ import { type Dispatch, type SetStateAction } from "react";
 import Icon from "../helpful/icon";
 import { type ICart } from "~/interfaces/interfaces";
 import Link from "next/link";
-import SearchInput from "../helpful/searchInput";
+import { signOut, useSession } from "next-auth/react";
+import { SearchInput } from "~/pages/components/catalog";
 
 export default function Navbar(props: {
   mobileMenu: boolean;
@@ -26,6 +27,8 @@ export default function Navbar(props: {
     setScrollBeforeCart,
   } = props;
 
+  const { data: sessionData, status } = useSession();
+
   const openMobileMenu = () => {
     setScrollBeforeCart(scrollPosition);
     setMobileMenu(true);
@@ -46,6 +49,10 @@ export default function Navbar(props: {
     }, 50);
   };
 
+  // if (status === "loading" || !sessionData) {
+  //   return <LoadingSpinner />;
+  // }
+
   return (
     <nav className="sticky top-0 z-10 bg-slate-900 px-4 py-4">
       {/*       MOBILE      */}
@@ -61,9 +68,9 @@ export default function Navbar(props: {
         <Link href="/">
           <div className="flex cursor-pointer items-center justify-center">
             <Icon
-              img="https://static.vecteezy.com/system/resources/previews/009/384/332/original/old-vintage-book-clipart-design-illustration-free-png.png"
-              w={40}
-              h={40}
+              img="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png"
+              w={80}
+              h={80}
             />
           </div>
         </Link>
@@ -98,67 +105,59 @@ export default function Navbar(props: {
           <Link href="/">
             <div className="flex cursor-pointer items-center justify-center">
               <Icon
-                img="https://static.vecteezy.com/system/resources/previews/009/384/332/original/old-vintage-book-clipart-design-illustration-free-png.png"
-                w={40}
-                h={40}
+                img="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png"
+                w={120}
+                h={120}
               />
             </div>
           </Link>
 
           <div className="flex items-center gap-10 font-light text-slate-300 max-lg:hidden">
-            <div className="flex gap-3">
+            <div className="flex items-center gap-7">
               <Link href="/components/catalog">
-                <div className="cursor-pointer">All</div>
+                <div className="cursor-pointer font-medium">Books</div>
               </Link>
-              <div className="cursor-pointer">Fiction</div>
-              <div className="cursor-pointer">Non-fiction</div>
-
-              {/* <Link href="/components/purchases">
-                <div className="cursor-pointer">Purchases</div>
-              </Link> */}
+              <div className="cursor-pointer font-medium">About</div>
+              {sessionData?.user && (
+                <button
+                  onClick={() => signOut()}
+                  className="ml-10 cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-2 transition hover:border-black hover:bg-slate-50 hover:text-black"
+                >
+                  Log out
+                </button>
+              )}
             </div>
           </div>
         </div>
 
-        {/* <div className="font-medium text-slate-300 max-lg:hidden">
-          {sessionData && sessionData.user ? (
-            <div className="cursor-pointer" onClick={() => void signOut()}>
-              Sign out
-            </div>
-          ) : (
-            <div className="cursor-pointer" onClick={() => void signIn()}>
-              Sign in
-            </div>
-          )}
-        </div> */}
-
         <SearchInput className={"w-1/3 max-lg:hidden"} />
 
-        <div
-          onClick={openCartMenu}
-          className={`${
-            cartMenu && "pointer-events-none"
-          } relative flex cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-3`}
-        >
-          <Icon img="/shopping-cart.svg" w={15} h={15} />
-          {cart && cart.cartItems.length > 0 ? (
-            <span className="absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-600 opacity-50"></span>
-              <span className="relative h-5 w-5 rounded-full bg-green-700 pl-1.5 text-sm">
-                2
+        {!sessionData?.user ? (
+          <a
+            className="mr-8 cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-2 transition hover:border-black hover:bg-slate-50 hover:text-black"
+            href="/api/auth/signin"
+          >
+            Sign in
+          </a>
+        ) : (
+          <div
+            onClick={openCartMenu}
+            className={`${
+              cartMenu && "pointer-events-none"
+            } relative mr-8 flex cursor-pointer justify-between rounded border border-gray-100 border-opacity-30 p-3`}
+          >
+            <Icon img="/shopping-cart.svg" w={15} h={15} />
+            {cart && cart.cartItems.length > 0 ? (
+              <span className="absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-600 opacity-50"></span>
+                <span className="relative h-5 w-5 rounded-full bg-green-700 pl-1.5 text-sm">
+                  {cart.cartItems.length}
+                </span>
               </span>
-            </span>
-          ) : null}
-        </div>
+            ) : null}
+          </div>
+        )}
       </div>
     </nav>
   );
-}
-
-{
-  /* <div
-  className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-700 text-white transition duration-1000" // Adjust styling as needed
->
-  {cart.cartItems.length}
-</div>; */
 }

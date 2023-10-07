@@ -16,12 +16,12 @@ export default function CartMenu(props: {
 
   const { data: sessionData, status } = useSession();
 
-  if (status === "loading" || !sessionData) {
-    return <LoadingSpinner />;
-  }
+  // if (status === "loading" || !sessionData) {
+  //   return <LoadingSpinner />;
+  // }
 
   const { data: cart } = api.cart.getCartByUserId.useQuery({
-    userId: sessionData.user.id,
+    userId: sessionData?.user.id!,
   });
 
   // const { mutate: purchaseItem } =

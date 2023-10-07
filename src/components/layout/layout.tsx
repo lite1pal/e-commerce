@@ -54,12 +54,8 @@ export default function Layout({ children }: React.PropsWithChildren<object>) {
     };
   }, []);
 
-  if (status === "loading" || !sessionData) {
-    return <LoadingSpinner />;
-  }
-
   const { data: cart } = api.cart.getCartByUserId.useQuery({
-    userId: sessionData.user.id,
+    userId: sessionData?.user.id!,
   });
 
   const closeCartMenu = () => {

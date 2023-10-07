@@ -31,24 +31,24 @@ export default function Home() {
     }
   };
 
-  if (status === "loading" || !sessionData) {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
-  }
-
   const { data: cart } = api.cart.getCartByUserId.useQuery({
-    userId: sessionData.user.id,
+    userId: sessionData?.user.id!,
   });
 
   const { data: items, isLoading: itemsLoading } = api.item.getAll.useQuery();
 
   return (
     <Layout>
-      <div className="m-5 flex flex-col justify-center gap-5 max-lg:items-center lg:flex-row">
+      <div className="my-10 text-center text-5xl font-extralight">
+        Books of the day
+      </div>
+      <div className="m-5 flex flex-col justify-center gap-5 max-lg:items-center lg:flex-row lg:gap-20 xl:gap-36">
         {itemsLoading && (
           <div className="h-screen">
             <LoadingSpinner />
           </div>
         )}
+
         {items && (
           <Link href={`/components/item/${items[4]?.id}`}>
             <Image
@@ -58,22 +58,25 @@ export default function Home() {
               height={1080}
               quality={100}
               style={{ objectFit: "contain", overflow: "hidden" }}
-              className="aspect-square rounded-lg border border-gray-100 border-opacity-10 hover:border-blue-700"
+              className="rounded-lg border border-gray-100 border-opacity-10 hover:border-blue-700 md:max-w-xl"
             />
           </Link>
         )}
 
         <div className="flex w-fit flex-col gap-5">
           {items && (
-            <Link href={`/components/item/${items[1]?.id}`}>
+            <Link href={`/components/item/${items[6]?.id}`}>
               <Image
-                src={items[1]?.images[0] ? items[1].images[0] : ""}
+                src={items[6]?.images[0] ? items[6].images[0] : ""}
                 alt={`image-tshirt.png`}
                 width={1920}
                 height={1920}
                 quality={100}
-                style={{ objectFit: "cover", overflow: "hidden" }}
-                className="aspect-square rounded-lg border border-gray-100 border-opacity-10 hover:border-blue-700 md:max-w-xl lg:max-w-md"
+                style={{
+                  objectFit: "cover",
+                  overflow: "hidden",
+                }}
+                className="rounded-lg border border-gray-100 border-opacity-10 hover:border-blue-700 md:max-w-xl lg:max-w-xs"
               />
             </Link>
           )}
@@ -86,7 +89,7 @@ export default function Home() {
                 height={1920}
                 quality={100}
                 style={{ objectFit: "cover", overflow: "hidden" }}
-                className="aspect-square rounded-lg border border-gray-100 border-opacity-10 bg-slate-950 hover:border-blue-700 md:max-w-xl lg:max-w-md"
+                className="rounded-lg border border-gray-100 border-opacity-10 bg-slate-950 hover:border-blue-700 md:max-w-xl lg:max-w-xs"
               />
             </Link>
           )}

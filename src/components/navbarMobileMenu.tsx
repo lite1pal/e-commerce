@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Icon from "./helpful/icon";
-import SearchInput from "./helpful/searchInput";
 import Link from "next/link";
+import { SearchInput } from "~/pages/components/catalog";
 
 export default function NavbarMobileMenu(props: {
   fadeIn: boolean;
@@ -26,13 +26,9 @@ export default function NavbarMobileMenu(props: {
       <SearchInput className={undefined} />
       <div className="flex flex-col gap-3 text-xl font-light">
         <Link href="/components/catalog">
-          <div className="cursor-pointer">All</div>
+          <div className="cursor-pointer">Books</div>
         </Link>
-        <div className="cursor-pointer">Fiction</div>
-
-        <Link href="/components/catalog">
-          <div className="cursor-pointer">Non-fiction</div>
-        </Link>
+        <div className="cursor-pointer">About</div>
 
         <Link href="/components/purchases">
           <div className="cursor-pointer">Purchases</div>

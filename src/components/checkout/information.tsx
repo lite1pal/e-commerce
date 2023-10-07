@@ -6,12 +6,8 @@ import { api } from "~/utils/api";
 export default function Information() {
   const { data: sessionData, status } = useSession();
 
-  if (status === "loading" || !sessionData) {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
-  }
-
   const { data: cart } = api.cart.getCartByUserId.useQuery({
-    userId: sessionData.user.id,
+    userId: sessionData?.user.id!,
   });
   const { mutate: purchaseItem } =
     api.purchase.addItemToPurchasedItems.useMutation({

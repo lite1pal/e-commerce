@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 const itemRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(async ({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     const items = await ctx.prisma.item.findMany({
       take: 10,
       include: { reviews: { include: { user: true } } },
@@ -16,7 +16,7 @@ const itemRouter = createTRPCRouter({
     }
     return items;
   }),
-  getByItemId: protectedProcedure
+  getByItemId: publicProcedure
     .input(z.object({ itemId: z.string() }))
     .query(async ({ ctx, input: { itemId } }) => {
       const item = await ctx.prisma.item.findUnique({

@@ -8,12 +8,11 @@ export default function Footer() {
         <div className="flex items-center gap-2 text-xl font-light text-slate-200">
           <div className="cursor-pointer">
             <Icon
-              img="https://static.vecteezy.com/system/resources/previews/009/384/332/original/old-vintage-book-clipart-design-illustration-free-png.png"
-              w={40}
-              h={40}
+              img="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png"
+              w={80}
+              h={80}
             />
           </div>
-          <div>Book Store</div>
         </div>
       </Link>
       <div className="flex flex-col gap-4 text-xl font-extralight text-slate-300">

@@ -7,13 +7,9 @@ import { api } from "~/utils/api";
 export default function Purchases() {
   const { data: sessionData, status } = useSession();
 
-  if (status === "loading" || !sessionData) {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
-  }
-
   const { data: purchasedItems, isLoading: purchasedItemsLoading } =
     api.purchase.getAllByUserId.useQuery({
-      userId: sessionData.user.id,
+      userId: sessionData?.user.id!,
     });
 
   return (

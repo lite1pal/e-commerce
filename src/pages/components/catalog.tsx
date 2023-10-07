@@ -3,6 +3,9 @@ import LoadingSpinner from "../../components/helpful/loading";
 import Item from "../../components/catalog/item";
 import Layout from "~/components/layout/layout";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Icon from "~/components/helpful/icon";
 
 function Filter({ filter, options }: { filter: string; options: string[] }) {
   return (
@@ -18,6 +21,37 @@ function Filter({ filter, options }: { filter: string; options: string[] }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+export function SearchInput({
+  className,
+}: {
+  className: string | null | undefined;
+}) {
+  const router = useRouter();
+
+  const [inputValue, setInputValue] = useState("");
+
+  const searchBooks = (e: any) => {
+    if (e.key === "Enter") {
+      router.push("/components/catalog");
+    }
+  };
+  return (
+    <div
+      className={`${className} flex items-center justify-between gap-10 rounded-lg border border-white border-opacity-10 p-3`}
+    >
+      <input
+        className="w-full bg-transparent text-sm outline-none placeholder:text-sm"
+        type="text"
+        placeholder="Search for books..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={searchBooks}
+      />
+      <Icon img="/search.svg" w={15} h={15} />
     </div>
   );
 }
@@ -80,14 +114,10 @@ export function Filters() {
 export default function Catalog() {
   const { data: sessionData, status } = useSession();
 
-  if (status === "loading" || !sessionData) {
-    return <div className="h-screen w-screen bg-slate-900"></div>;
-  }
-
   const { data: items, isLoading: itemsLoading } = api.item.getAll.useQuery();
 
   const { data: cart } = api.cart.getCartByUserId.useQuery({
-    userId: sessionData.user.id,
+    userId: sessionData?.user.id!,
   });
 
   return (
@@ -95,7 +125,7 @@ export default function Catalog() {
       <div className="flex flex-col gap-5">
         <div className="mx-auto flex w-11/12 flex-col justify-between gap-5 bg-slate-900 p-5 lg:flex-row lg:items-center">
           <div className=" flex flex-col gap-5 text-2xl font-light text-slate-100">
-            <div className="">Fiction books</div>
+            <div className="">Books</div>
             {itemsLoading ? <LoadingSpinner /> : null}
           </div>
           <hr className="mx-auto w-full opacity-30 lg:hidden" />
