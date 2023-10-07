@@ -105,7 +105,7 @@ export default function Item(props: {
           <div
             onClick={() => {
               if (!sessionData?.user) {
-                router.push("/api/auth/signin");
+                void router.push("/api/auth/signin");
                 return;
               }
 

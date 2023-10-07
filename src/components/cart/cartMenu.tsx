@@ -2,8 +2,8 @@ import Icon from "../helpful/icon";
 import CartItem from "./cartItem";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-import LoadingSpinner from "../helpful/loading";
 import { type Dispatch, type SetStateAction } from "react";
+import LoadingSpinner from "../helpful/loading";
 
 export default function CartMenu(props: {
   fadeIn: boolean;
@@ -14,7 +14,7 @@ export default function CartMenu(props: {
 }) {
   const { fadeIn, closeCartMenu, cartMenu, test } = props;
 
-  const { data: sessionData, status } = useSession();
+  const { data: sessionData } = useSession();
 
   // if (status === "loading" || !sessionData) {
   //   return <LoadingSpinner />;

@@ -188,6 +188,9 @@ export function WriteReview({
 
 export function Reviews({ item }: { item: IItem }) {
   const [writeReviewVision, setWriteReviewVision] = useState(false);
+
+  const { data: sessionData } = useSession();
+  const router = useRouter();
   return (
     <div
       className={`mx-auto ${
@@ -199,7 +202,13 @@ export function Reviews({ item }: { item: IItem }) {
         <div className="flex w-full justify-between">
           <div className="text-2xl">Reviews</div>
           <button
-            onClick={() => setWriteReviewVision(true)}
+            onClick={() => {
+              if (!sessionData) {
+                void router.push("/api/auth/signin");
+                return;
+              }
+              setWriteReviewVision(true);
+            }}
             className="rounded border px-2 py-2 font-light hover:bg-gray-800"
           >
             Write a review
